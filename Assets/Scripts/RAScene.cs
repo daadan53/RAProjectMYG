@@ -16,6 +16,8 @@ public class RAScene : MonoBehaviour
         visualRA.transform.localPosition = Vector3.zero;
         visualRA.SetActive(false);
     }
+
+    public void GoBack() => GameManager.instance.OnGoBack("CatalogueScene");
     
     /*public void OnTargetFound()
     { 

@@ -14,18 +14,23 @@ public class GameManager : MonoBehaviour
 
     private List<VisualElement> visualElements;
     VisualElement productCharged;
-    public GameObject[] prefabModel;
-    public GameObject visual;
+    [SerializeField] private GameObject[] prefabModel;
+    private GameObject visualPrefab;
     public GameObject threeDView;
+    private bool isVisualInstantiated = false;
+    public int visualPrefabIndex = -1;
+
     public GameObject groundStage;
-    [SerializeField] private Camera mainCamera;
+
+    public Camera mainCamera;
+
     private Touch firstTouch;
     private float startXPosition;
     private float startYPosition;
-    public float speedMove = 0.1f;
-    private bool isVisualInstantiated = false;
+    [SerializeField] private float speedMove = 0.1f;
+
     private string sceneName;
-    public int visualPrefabIndex = -1;
+
     [SerializeField] private GameObject loadingScreen;
     [SerializeField] private UnityEngine.UI.Slider progressBar;
 
@@ -93,15 +98,19 @@ public class GameManager : MonoBehaviour
                 {
                     productCharged.RegisterCallback<ClickEvent>(ev => 
                     { 
+                        if(threeDView.transform.childCount >= 1)
+                        {
+                            Destroy(threeDView.transform.GetChild(0).gameObject);
+                        }
                         //Instancie le prefab au au niveau du canva
-                        visual = Instantiate(prefabModel[index]);
-                        visual.transform.SetParent(threeDView.transform);
-                        visual.transform.localPosition = Vector3.zero;
+                        visualPrefab = Instantiate(prefabModel[index]);
+                        visualPrefab.transform.SetParent(threeDView.transform);
+                        visualPrefab.transform.localPosition = Vector3.zero;
 
                         threeDView.transform.position = mainCamera.transform.position + mainCamera.transform.forward * 5f;
                         threeDView.transform.LookAt(mainCamera.transform);
 
-                        AdjustDistance(visual);
+                        AdjustDistance(visualPrefab);
 
                         this.gameObject.GetComponent<UIDocument>().enabled = false;
                         isVisualInstantiated = true;
@@ -153,7 +162,7 @@ public class GameManager : MonoBehaviour
                         float diffX = firstTouch.position.x - startXPosition;
                         float diffY = firstTouch.position.y - startYPosition;
 
-                        visual.transform.Rotate(diffY * speedMove, -diffX * speedMove, 0, Space.World);
+                        visualPrefab.transform.Rotate(diffY * speedMove, -diffX * speedMove, 0, Space.World);
 
                         // Met à jour les positions de départ pour la prochaine frame
                         startXPosition = firstTouch.position.x;
@@ -175,7 +184,7 @@ public class GameManager : MonoBehaviour
                     // Calcul la diff entre position de départ et actuelle
                     float diffX = firstTouch.position.x - startXPosition;
 
-                    visual.transform.Rotate(0, 0, -diffX * speedMove, Space.Self);
+                    visualPrefab.transform.Rotate(0, 0, -diffX * speedMove, Space.Self);
 
                     // Met à jour les positions de départ pour la prochaine frame
                     startXPosition = firstTouch.position.x;
@@ -185,15 +194,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void OnGoBack()
+    public void OnGoBack(string _sceneName)
     {
         isVisualInstantiated = false;
-        this.gameObject.GetComponent<UIDocument>().enabled = true;
 
-        if(threeDView.transform.childCount >= 1)
+        if(sceneName == "RAScene")
         {
-            Destroy(threeDView.transform.GetChild(0).gameObject);
+            StartCoroutine(Loading(_sceneName));
         }
+
+        this.gameObject.GetComponent<UIDocument>().enabled = true;
 
         ChargeProductCatalogue();
     }
@@ -201,7 +211,7 @@ public class GameManager : MonoBehaviour
     //Méthodes de chargement de scène
     public void OnGoNextScene(string sceneName)
     {
-        if (visual != null)
+        if (visualPrefab != null)
         {
             SaveVisual();
         }
@@ -241,7 +251,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < prefabModel.Length; i++)
         {
-            if (visual.name.Contains(prefabModel[i].name))
+            if (visualPrefab.name.Contains(prefabModel[i].name))
             {
                 visualPrefabIndex = i;
                 break;
