@@ -1,14 +1,19 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class ObjectManager : MonoBehaviour
+public class ObjectManager : MonoBehaviour, IPointerDownHandler
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        Debug.Log("Je clique dessus");
+        throw new System.NotImplementedException();
+    }
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         

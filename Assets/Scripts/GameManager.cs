@@ -29,6 +29,9 @@ public class GameManager : MonoBehaviour
     private float startYPosition;
     [SerializeField] private float speedMove = 0.1f;
 
+    [SerializeField] private float distanceField = 1.5f;
+    private const string wineBottle = "WineBottle";
+
     private string sceneName;
 
     [SerializeField] private GameObject loadingScreen;
@@ -138,7 +141,7 @@ public class GameManager : MonoBehaviour
         float maxSize = Mathf.Max(renderer.bounds.size.x, renderer.bounds.size.y, renderer.bounds.size.z);
 
         // Calcule la distance en fonction de la taille et du champ de vision de la caméra
-        float distance = (maxSize / Mathf.Tan(Mathf.Deg2Rad * mainCamera.fieldOfView / 2)) * 1.5f; // Le facteur 1.1f ajuste l'espacement
+        float distance = (maxSize / Mathf.Tan(Mathf.Deg2Rad * mainCamera.fieldOfView / 2)) * distanceField; // Le facteur 1.1f ajuste l'espacement
 
         // Place l'objet à la distance calculée face à la caméra
         threeDView.transform.position = mainCamera.transform.position + mainCamera.transform.forward * distance;
@@ -146,7 +149,7 @@ public class GameManager : MonoBehaviour
 
     private void RotateView()
     {
-        if(!threeDView.transform.GetChild(0).name.Contains("WineBottle"))
+        if(!threeDView.transform.GetChild(0).name.Contains(wineBottle))
             {
                 firstTouch = Input.GetTouch(0);
 
@@ -170,7 +173,7 @@ public class GameManager : MonoBehaviour
                         break;
                 }
             }
-        else if (threeDView.transform.GetChild(0).name.Contains("WineBottle"))
+        else if (threeDView.transform.GetChild(0).name.Contains(wineBottle))
         {
             firstTouch = Input.GetTouch(0);
             switch (firstTouch.phase)
@@ -241,7 +244,7 @@ public class GameManager : MonoBehaviour
         // Met à jour le nom de la scène actuelle lorsqu'une nouvelle scène est chargée
         sceneName = scene.name;
 
-        /*if (visualPrefabIndex >= 0)
+        /*if (visualPrefabIndex >= 0 && groundStage != null)
         {
             InstantiateSavedVisual();
         }*/
@@ -263,10 +266,10 @@ public class GameManager : MonoBehaviour
     {
         if (visualPrefabIndex >= 0 && visualPrefabIndex < prefabModel.Length)
         {
-            visual = Instantiate(prefabModel[visualPrefabIndex]);
-            visual.transform.SetParent(groundStage.transform);
-            visual.transform.localPosition = Vector3.zero;
-            visual.SetActive(false);
+            visualPrefab = Instantiate(prefabModel[visualPrefabIndex]);
+            visualPrefab.transform.SetParent(groundStage.transform);
+            visualPrefab.transform.localPosition = Vector3.zero;
+            visualPrefab.SetActive(false);
         }
         else
         {

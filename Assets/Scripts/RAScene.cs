@@ -4,6 +4,7 @@ public class RAScene : MonoBehaviour
 {
     [SerializeField] private GameObject[] prefabs;
     private GameObject visualRA;
+
     private void Awake() 
     {
         GameManager.instance.groundStage = this.gameObject;
