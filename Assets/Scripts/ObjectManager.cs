@@ -1,21 +1,21 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SocialPlatforms;
 
-public class ObjectManager : MonoBehaviour, IPointerDownHandler
+public class ObjectManager : MonoBehaviour
 {
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        Debug.Log("Je clique dessus");
-        throw new System.NotImplementedException();
-    }
+    [SerializeField] private RAScene raScene;
 
-    void Start()
+    /*private void Start()
     {
-        
-    }
+        // Récupère la référence au script RAScene
+        raScene = FindObjectOfType<RAScene>();
+    }*/
 
-    void Update()
+    private void OnMouseDown()
     {
-        
+        // Appelé lorsqu'on clique sur l'objet
+        Debug.Log($"Prefab {gameObject.name} cliqué !");
+        raScene.ShowPanel();
     }
 }

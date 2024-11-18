@@ -7,6 +7,11 @@ public class RAScene : MonoBehaviour
     private const string wineBottle = "WineBottle";
     [SerializeField] private int rotationDegree = 10;
 
+    [SerializeField] private Camera arCamera;
+    [SerializeField] private GameObject panel;
+    private int index;
+    private const string panelName = "PanelDescription";
+    
     private void Awake() 
     {
         GameManager.instance.groundStage = this.gameObject;
@@ -14,10 +19,18 @@ public class RAScene : MonoBehaviour
 
     private void Start() 
     {
+        arCamera = Camera.main;
+
         visualRA = prefabs[GameManager.instance.visualPrefabIndex];
         visualRA.transform.SetParent(this.gameObject.transform);
         visualRA.transform.localPosition = Vector3.zero;
         visualRA.SetActive(false);
+    }
+
+    public void ShowPanel()
+    {
+        panel.SetActive(true);
+        Debug.Log("Action déclenchée pour cet objet !");
     }
 
     public void GoBack() => GameManager.instance.OnGoBack("CatalogueScene");

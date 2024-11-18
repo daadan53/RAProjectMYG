@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float distanceField = 1.5f;
     private const string wineBottle = "WineBottle";
 
-    private string sceneName;
+    public string sceneName;
 
     [SerializeField] private GameObject loadingScreen;
     [SerializeField] private UnityEngine.UI.Slider progressBar;
