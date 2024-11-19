@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bd665a66ff8cae48b599ec91d5ee7f5, type: 3}
+  m_Name: WineBottle
+  m_EditorClassIdentifier: 
+  productName: Beaujolais nouveau
+  description: "D\xE9voilant une bouche juteuse et charnue, le Beaujolais Nouveau
+    Les Griottes porte bien son nom : les ar\xF4mes de cerise, de m\xFBre et de framboise
+    tapissent nos palais amateurs !"
+  dimension: H. 29cm x D. 7.5cm
+  price: "8,70\u20AC"

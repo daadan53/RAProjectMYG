@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bd665a66ff8cae48b599ec91d5ee7f5, type: 3}
+  m_Name: sofa
+  m_EditorClassIdentifier: 
+  productName: "Canap\xE9 scandinave 2 places"
+  description: "Design r\xE9tro et original. Avec ses lignes massives et graphiques,
+    le canap\xE9 \"Chris\" se pr\xE9sentera comme la pi\xE8ce maitresse de votre
+    salon. La largeur de ses accoudoirs chacun munis d'une tablette r\xE9tractable
+    lui donne un style hors du commun. Il s'inscrira avec harmonie dans un d\xE9cor
+    vintage ou industriel.  L'esth\xE9tisme au service du confort Les dimensions
+    de ce canap\xE9 permettent d'accommoder 2 personnes qui se sentiront imm\xE9diatement
+    \xE0 l'aise."
+  dimension: L. 230 x P. 86 x H. 74 cm
+  price: "699\u20AC"

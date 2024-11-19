@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bd665a66ff8cae48b599ec91d5ee7f5, type: 3}
+  m_Name: Maestro
+  m_EditorClassIdentifier: 
+  productName: "Po\xEAle  \xE0 bois ancien"
+  description: "Avec son style traditionnel, ce po\xEAle \xE0 bois Invicta Rustica
+    est id\xE9al pour les pi\xE8ces \xE0 vivre jusqu'\xE0 120m2. Il dispose d'un
+    bon rendement pour profiter d'une maison chaleureuse et confortable tout en r\xE9duisant
+    vos factures de chauffage."
+  dimension: 73.6x76.4x46.8cm
+  price: "899\u20AC"

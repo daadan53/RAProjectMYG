@@ -9,6 +9,7 @@ public class RAScene : MonoBehaviour
 
     [SerializeField] private Camera arCamera;
     [SerializeField] private GameObject panel;
+    [SerializeField] private GameObject planeFinder;
     private int index;
     private const string panelName = "PanelDescription";
     
@@ -25,15 +26,21 @@ public class RAScene : MonoBehaviour
         visualRA.transform.SetParent(this.gameObject.transform);
         visualRA.transform.localPosition = Vector3.zero;
         visualRA.SetActive(false);
+
+        panel.SetActive(false);
     }
 
     public void ShowPanel()
     {
         panel.SetActive(true);
+        this.gameObject.SetActive(false);
+        planeFinder.SetActive(false);
         Debug.Log("Action déclenchée pour cet objet !");
     }
 
-    public void GoBack() => GameManager.instance.OnGoBack("CatalogueScene");
+    public void GoBack() => GameManager.instance.OnGoNextScene("CatalogueScene");
+
+    public void Return() => GameManager.instance.Return(panel, this.gameObject, planeFinder);
     
     public void TurnRight()
     {

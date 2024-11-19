@@ -6,7 +6,7 @@ public class Menu : MonoBehaviour
     [SerializeField] private GameObject threeDView;
     [SerializeField] private Camera mainCamera;
     public void Play() => GameManager.instance.OnGoNextScene("RAScene");
-    public void GoBack() => GameManager.instance.OnGoBack("CatalogueScene");
+    public void GoBack() => GameManager.instance.Return(null,null,null);
 
     private void Awake()
     {

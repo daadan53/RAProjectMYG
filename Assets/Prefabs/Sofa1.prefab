@@ -84,6 +84,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f17de2d1a8870e4aa03478f37180eb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectData: {fileID: 11400000, guid: 2261c7d0f160cff409be73b4dec177a7, type: 2}
+  raScene: {fileID: 0}
 --- !u!65 &3709235851703065083
 BoxCollider:
   m_ObjectHideFlags: 0

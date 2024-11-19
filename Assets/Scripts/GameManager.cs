@@ -126,15 +126,20 @@ public class GameManager : MonoBehaviour
                     Debug.LogWarning("Index " + j + " est en dehors de la liste de prefab.");
                 }
             }
+            else if(visualElements[i].name.ToLower() == "quit")
+            {
+                productCharged = visualElements[i];
+                productCharged.RegisterCallback<ClickEvent>(ev => { Debug.Log("Je quitte"); Application.Quit(); });
+            }
         }
     }
 
-    private void AdjustDistance(GameObject visual)
+    private void AdjustDistance(GameObject _visual)
     {
-        Renderer renderer = visual.GetComponent<Renderer>();
+        Renderer renderer = _visual.GetComponent<Renderer>();
         if (renderer == null)
         {
-            renderer = visual.GetComponentInChildren<Renderer>();
+            renderer = _visual.GetComponentInChildren<Renderer>();
         }
         
         // Calcule le plus grand côté de l'objet
@@ -197,22 +202,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void OnGoBack(string _sceneName)
+    public void Return(GameObject _panel, GameObject _groundPlane, GameObject _planeFinder)
     {
-        isVisualInstantiated = false;
-
-        if(sceneName == "RAScene")
+        if(sceneName == "CatalogueScene")
         {
-            StartCoroutine(Loading(_sceneName));
+            this.gameObject.GetComponent<UIDocument>().enabled = true;
+            ChargeProductCatalogue();
         }
-
-        this.gameObject.GetComponent<UIDocument>().enabled = true;
-
-        ChargeProductCatalogue();
+        else
+        {
+            _panel.SetActive(false);
+            _groundPlane.SetActive(true);
+            _planeFinder.SetActive(true);
+        }
     }
 
     //Méthodes de chargement de scène
-    public void OnGoNextScene(string sceneName)
+    public void OnGoNextScene(string _sceneName)
     {
         if (visualPrefab != null)
         {
@@ -221,7 +227,13 @@ public class GameManager : MonoBehaviour
 
         isVisualInstantiated = false;
 
-        StartCoroutine(Loading(sceneName));
+        if(_sceneName == "CatalogueScene")
+        {
+            this.gameObject.GetComponent<UIDocument>().enabled = true;
+            ChargeProductCatalogue();
+        }
+
+        StartCoroutine(Loading(_sceneName));
     }
     private IEnumerator Loading(string _sceneName) 
     {
@@ -243,11 +255,6 @@ public class GameManager : MonoBehaviour
     {
         // Met à jour le nom de la scène actuelle lorsqu'une nouvelle scène est chargée
         sceneName = scene.name;
-
-        /*if (visualPrefabIndex >= 0 && groundStage != null)
-        {
-            InstantiateSavedVisual();
-        }*/
     }
 
     private void SaveVisual()
@@ -262,38 +269,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /*private void InstantiateSavedVisual()
-    {
-        if (visualPrefabIndex >= 0 && visualPrefabIndex < prefabModel.Length)
-        {
-            visualPrefab = Instantiate(prefabModel[visualPrefabIndex]);
-            visualPrefab.transform.SetParent(groundStage.transform);
-            visualPrefab.transform.localPosition = Vector3.zero;
-            visualPrefab.SetActive(false);
-        }
-        else
-        {
-            Debug.Log("Surement le groundstage qui manque");
-        }
-    }*/
-
     private void OnDestroy()
     {
         // Retire le listener quand le script est détruit
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
-
-    /*public void OnTargetFound()
-    { 
-        groundStage.transform.GetChild(0).gameObject.SetActive(true);
-        //canvasDebug.SetActive(true);
-    }
-
-    public void OnTargetLost()
-    {
-        if(groundStage.transform.childCount == 1)
-        {
-            groundStage.transform.GetChild(0).gameObject.SetActive(false);
-        }
-    }  */
 }
