@@ -4,13 +4,13 @@ using UnityEngine;
 public class RAScene : MonoBehaviour
 {
     GameManager gameManager;
+    public ObjectManager objectManager;
 
-    //[SerializeField] private List<GameObject> prefabsList;
     private GameObject visualRA;
-    private const string WINE_BOTTLE = "Product2";
+    private const string WINE_BOTTLE = "Product1";
     [SerializeField] private int rotationDegree = 10;
 
-    //[SerializeField] private Camera arCamera;
+
     [SerializeField] private GameObject panel;
     [SerializeField] private GameObject planeFinder;
     private const string PANEL_NAME = "PanelDescription";
@@ -19,14 +19,16 @@ public class RAScene : MonoBehaviour
     {
         gameManager = GameManager.instance;
         gameManager.groundStage = this.gameObject;
+        objectManager = gameManager.gameObject.GetComponent<ObjectManager>();
         panel.SetActive(false);
     }
-
     private void Start() 
     {
         visualRA = gameManager.prefabModelList[gameManager.visualPrefabIndex];
 
         gameManager.MovePrefabTo(visualRA, this.gameObject.transform, false);
+
+        objectManager.OnShowPanelRequested.AddListener(ShowPanel);
     }
 
     public void ShowPanel()

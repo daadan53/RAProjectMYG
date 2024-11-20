@@ -1,11 +1,14 @@
+using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 
 public class ObjectManager : MonoBehaviour
 {
+    public UnityEvent OnShowPanelRequested;
     public ObjectData objectData;
 
     [SerializeField] private TextMeshProUGUI productName;
@@ -14,7 +17,10 @@ public class ObjectManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI dimension;
     [SerializeField] private TextMeshProUGUI price;
 
-    [SerializeField] private RAScene raScene;
+    private void Awake() 
+    {
+        OnShowPanelRequested = new UnityEvent();
+    }
 
     private void Start()
     {
@@ -29,12 +35,12 @@ public class ObjectManager : MonoBehaviour
         //model.transform.rotation = Quaternion.identity;
     }
 
-    /*private void OnMouseDown()
+    private void OnMouseDown()
     {
-        raScene.ShowPanel();
+        OnShowPanelRequested?.Invoke();
         productName.text = objectData.ProductName;
         description.text = objectData.Description;
         dimension.text = objectData.Dimension;
         price.text = objectData.Price;
-    }*/
+    }
 }
