@@ -17,5 +17,6 @@ MonoBehaviour:
     est id\xE9al pour les pi\xE8ces \xE0 vivre jusqu'\xE0 120m2. Il dispose d'un
     bon rendement pour profiter d'une maison chaleureuse et confortable tout en r\xE9duisant
     vos factures de chauffage."
+  productModel: {fileID: 4510601023655646058, guid: 125a30a06bd3c0e458b9d42a2317d30c, type: 3}
   dimension: 73.6x76.4x46.8cm
   price: "899\u20AC"

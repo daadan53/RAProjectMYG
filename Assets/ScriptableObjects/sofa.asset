@@ -20,5 +20,6 @@ MonoBehaviour:
     vintage ou industriel.  L'esth\xE9tisme au service du confort Les dimensions
     de ce canap\xE9 permettent d'accommoder 2 personnes qui se sentiront imm\xE9diatement
     \xE0 l'aise."
+  productModel: {fileID: 8171754867472146271, guid: ccceb1ac7b0d6464abfe03ff2b9f5271, type: 3}
   dimension: L. 230 x P. 86 x H. 74 cm
   price: "699\u20AC"

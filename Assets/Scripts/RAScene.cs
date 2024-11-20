@@ -1,33 +1,32 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RAScene : MonoBehaviour
 {
-    [SerializeField] private GameObject[] prefabs;
+    GameManager gameManager;
+
+    //[SerializeField] private List<GameObject> prefabsList;
     private GameObject visualRA;
-    private const string wineBottle = "WineBottle";
+    private const string WINE_BOTTLE = "Product2";
     [SerializeField] private int rotationDegree = 10;
 
-    [SerializeField] private Camera arCamera;
+    //[SerializeField] private Camera arCamera;
     [SerializeField] private GameObject panel;
     [SerializeField] private GameObject planeFinder;
-    private int index;
-    private const string panelName = "PanelDescription";
+    private const string PANEL_NAME = "PanelDescription";
     
     private void Awake() 
     {
-        GameManager.instance.groundStage = this.gameObject;
+        gameManager = GameManager.instance;
+        gameManager.groundStage = this.gameObject;
+        panel.SetActive(false);
     }
 
     private void Start() 
     {
-        arCamera = Camera.main;
+        visualRA = gameManager.prefabModelList[gameManager.visualPrefabIndex];
 
-        visualRA = prefabs[GameManager.instance.visualPrefabIndex];
-        visualRA.transform.SetParent(this.gameObject.transform);
-        visualRA.transform.localPosition = Vector3.zero;
-        visualRA.SetActive(false);
-
-        panel.SetActive(false);
+        gameManager.MovePrefabTo(visualRA, this.gameObject.transform, false);
     }
 
     public void ShowPanel()
@@ -35,16 +34,21 @@ public class RAScene : MonoBehaviour
         panel.SetActive(true);
         this.gameObject.SetActive(false);
         planeFinder.SetActive(false);
-        Debug.Log("Action déclenchée pour cet objet !");
     }
 
-    public void GoBack() => GameManager.instance.OnGoNextScene("CatalogueScene");
+    public void OnGoNextScene() => gameManager.OnGoNextScene("CatalogueScene", visualRA, gameManager.prefabModelList);
 
-    public void Return() => GameManager.instance.Return(panel, this.gameObject, planeFinder);
+
+    public void GoBack()
+    {
+        panel.SetActive(false);
+        this.gameObject.SetActive(true);
+        planeFinder.SetActive(true);
+    }
     
     public void TurnRight()
     {
-        if(visualRA.name != wineBottle)
+        if(visualRA.name != WINE_BOTTLE)
         {
             visualRA.transform.Rotate(0, visualRA.transform.rotation.y - rotationDegree, 0);
         }
@@ -56,7 +60,7 @@ public class RAScene : MonoBehaviour
 
     public void TurnLeft()
     {
-        if(visualRA.name != wineBottle)
+        if(visualRA.name != WINE_BOTTLE)
         {
             visualRA.transform.Rotate(0, visualRA.transform.rotation.y + rotationDegree, 0);
         }

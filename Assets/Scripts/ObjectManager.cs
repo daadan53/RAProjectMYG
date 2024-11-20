@@ -10,6 +10,7 @@ public class ObjectManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI productName;
     [SerializeField] private TextMeshProUGUI description;
+    [SerializeField] private GameObject model;
     [SerializeField] private TextMeshProUGUI dimension;
     [SerializeField] private TextMeshProUGUI price;
 
@@ -17,17 +18,23 @@ public class ObjectManager : MonoBehaviour
 
     private void Start()
     {
-
+        LoadPrefab();
     }
 
-    private void OnMouseDown()
+    private void LoadPrefab()
     {
-        // Appelé lorsqu'on clique sur l'objet
-        Debug.Log($"Prefab {gameObject.name} cliqué !");
-        raScene.ShowPanel();
-        productName.text = objectData.productName;
-        description.text = objectData.description;
-        dimension.text = objectData.dimension;
-        price.text = objectData.price;
+        model = Instantiate(objectData.ProductModel);
+        model.transform.SetParent(transform);
+        model.transform.localPosition = Vector3.zero;
+        //model.transform.rotation = Quaternion.identity;
     }
+
+    /*private void OnMouseDown()
+    {
+        raScene.ShowPanel();
+        productName.text = objectData.ProductName;
+        description.text = objectData.Description;
+        dimension.text = objectData.Dimension;
+        price.text = objectData.Price;
+    }*/
 }
