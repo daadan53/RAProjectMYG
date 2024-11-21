@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        ChargePrefab(prefabModelList);
+        ChargePrefabToList(prefabModelList);
         // Ajouter un listener pour le clic sur chaque visual element qui s'appel product
         ChargeProductCatalogue();
     }
@@ -82,11 +82,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ChargePrefab(List<GameObject> _prefabList)
+    public void ChargePrefabToList(List<GameObject> _prefabList)
     {
         prefabModelList = new List<GameObject>();
         //On récup les produits qui sont enfant du gameObject et on les mets dans une liste
-        int i = 0; // Démarre avec "product1"
+        int i = 0; // Démarre avec "product0"
 
         while (true)
         {
@@ -134,7 +134,6 @@ public class GameManager : MonoBehaviour
                 int index = j;
                 foreach(GameObject product in prefabModelList)
                 {
-                    Debug.Log(product.name);
                     if (productCharged.name.ToLower().Contains(product.name.ToLower()))
                     {
                         productCharged.RegisterCallback<ClickEvent>(ev => 
@@ -160,7 +159,7 @@ public class GameManager : MonoBehaviour
             else if(visualElements[i].name.ToLower() == "quit")
             {
                 productCharged = visualElements[i];
-                productCharged.RegisterCallback<ClickEvent>(ev => { Debug.Log("Je quitte"); Application.Quit(); });
+                productCharged.RegisterCallback<ClickEvent>(ev => { Application.Quit(); });
             }
         }
     }
@@ -307,7 +306,6 @@ public class GameManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        // Retire le listener quand le script est détruit
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }

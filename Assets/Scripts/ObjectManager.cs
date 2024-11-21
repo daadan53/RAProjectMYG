@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class ObjectManager : MonoBehaviour
 {
-    public UnityEvent OnShowPanelRequested;
+    public static event Action OnShowPanelRequested;
     public ObjectData objectData;
 
     [SerializeField] private TextMeshProUGUI productName;
@@ -19,7 +19,7 @@ public class ObjectManager : MonoBehaviour
 
     private void Awake() 
     {
-        OnShowPanelRequested = new UnityEvent();
+        
     }
 
     private void Start()
@@ -32,7 +32,36 @@ public class ObjectManager : MonoBehaviour
         model = Instantiate(objectData.ProductModel);
         model.transform.SetParent(transform);
         model.transform.localPosition = Vector3.zero;
+        AdjustColliderToMatchChild();
         //model.transform.rotation = Quaternion.identity;
+    }
+
+    private void AdjustColliderToMatchChild()
+    {
+        BoxCollider collider = GetComponent<BoxCollider>();
+        if (collider == null)
+        {
+            Debug.LogError("Pas de BoxCollider trouvé.");
+            return;
+        }
+
+        if (transform.childCount == 0)
+        {
+            Debug.LogError("Aucun enfant trouvé.");
+            return;
+        }
+
+        Transform child = transform.GetChild(0);
+
+        Renderer childRenderer = child.GetComponent<Renderer>();
+        if (childRenderer == null)
+        {
+            childRenderer = child.GetComponentInChildren<Renderer>();
+        }
+
+        // Ajuste la taille et le centre du BoxCollider
+        collider.size = childRenderer.bounds.size;
+        collider.center = transform.InverseTransformPoint(childRenderer.bounds.center);
     }
 
     private void OnMouseDown()

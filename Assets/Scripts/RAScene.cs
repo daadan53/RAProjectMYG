@@ -17,6 +17,8 @@ public class RAScene : MonoBehaviour
     
     private void Awake() 
     {
+        ObjectManager.OnShowPanelRequested += ShowPanel;
+
         gameManager = GameManager.instance;
         gameManager.groundStage = this.gameObject;
         objectManager = gameManager.gameObject.GetComponent<ObjectManager>();
@@ -28,7 +30,7 @@ public class RAScene : MonoBehaviour
 
         gameManager.MovePrefabTo(visualRA, this.gameObject.transform, false);
 
-        objectManager.OnShowPanelRequested.AddListener(ShowPanel);
+        
     }
 
     public void ShowPanel()
@@ -70,5 +72,10 @@ public class RAScene : MonoBehaviour
         {
             visualRA.transform.Rotate(0, 0, visualRA.transform.rotation.z + rotationDegree);
         }
+    }
+
+    private void OnDestroy() 
+    {
+        ObjectManager.OnShowPanelRequested -= ShowPanel;
     }
 }
