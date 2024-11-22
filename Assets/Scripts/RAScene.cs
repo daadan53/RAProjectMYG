@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using TMPro;
 
 public class RAScene : MonoBehaviour
 {
@@ -14,6 +16,10 @@ public class RAScene : MonoBehaviour
     [SerializeField] private GameObject panel;
     [SerializeField] private GameObject planeFinder;
     private const string PANEL_NAME = "PanelDescription";
+    [SerializeField] private TextMeshProUGUI productName;
+    [SerializeField] private TextMeshProUGUI description;
+    [SerializeField] private TextMeshProUGUI dimension;
+    [SerializeField] private TextMeshProUGUI price;
     
     private void Awake() 
     {
@@ -33,11 +39,15 @@ public class RAScene : MonoBehaviour
         
     }
 
-    public void ShowPanel()
+    public void ShowPanel(string _name, string _description, string _dimension, string _price)
     {
         panel.SetActive(true);
         this.gameObject.SetActive(false);
         planeFinder.SetActive(false);
+        productName.text = _name;
+        description.text = _description;
+        dimension.text = _dimension;
+        price.text = _price;
     }
 
     public void OnGoNextScene() => gameManager.OnGoNextScene("CatalogueScene", visualRA, gameManager.prefabModelList);
@@ -54,11 +64,11 @@ public class RAScene : MonoBehaviour
     {
         if(visualRA.name != WINE_BOTTLE)
         {
-            visualRA.transform.Rotate(0, visualRA.transform.rotation.y - rotationDegree, 0);
+            visualRA.transform.Rotate(visualRA.transform.rotation.x - rotationDegree, 0, 0);
         }
         else
         {
-            visualRA.transform.Rotate(0, 0, visualRA.transform.rotation.z - rotationDegree);
+            visualRA.transform.Rotate(0, visualRA.transform.rotation.y - rotationDegree, 0);
         }
     }
 
@@ -66,11 +76,11 @@ public class RAScene : MonoBehaviour
     {
         if(visualRA.name != WINE_BOTTLE)
         {
-            visualRA.transform.Rotate(0, visualRA.transform.rotation.y + rotationDegree, 0);
+            visualRA.transform.Rotate(visualRA.transform.rotation.x + rotationDegree, 0, 0);
         }
         else
         {
-            visualRA.transform.Rotate(0, 0, visualRA.transform.rotation.z + rotationDegree);
+            visualRA.transform.Rotate(0, visualRA.transform.rotation.y + rotationDegree, 0);
         }
     }
 

@@ -16,6 +16,6 @@ MonoBehaviour:
   description: "D\xE9voilant une bouche juteuse et charnue, le Beaujolais Nouveau
     Les Griottes porte bien son nom : les ar\xF4mes de cerise, de m\xFBre et de framboise
     tapissent nos palais amateurs !"
-  productModel: {fileID: 7814839544147713744, guid: afcd500bf2ebfa540bf6d7d5ecac5ad3, type: 3}
+  productModel: {fileID: 7355983596194099412, guid: 853ad31b655faea42b5ce832e68e74b5, type: 3}
   dimension: H. 29cm x D. 7.5cm
   price: "8,70\u20AC"

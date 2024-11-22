@@ -8,19 +8,10 @@ using UnityEngine.UI;
 
 public class ObjectManager : MonoBehaviour
 {
-    public static event Action OnShowPanelRequested;
+    public static event Action<string, string, string, string> OnShowPanelRequested;
     public ObjectData objectData;
 
-    [SerializeField] private TextMeshProUGUI productName;
-    [SerializeField] private TextMeshProUGUI description;
     [SerializeField] private GameObject model;
-    [SerializeField] private TextMeshProUGUI dimension;
-    [SerializeField] private TextMeshProUGUI price;
-
-    private void Awake() 
-    {
-        
-    }
 
     private void Start()
     {
@@ -32,6 +23,7 @@ public class ObjectManager : MonoBehaviour
         model = Instantiate(objectData.ProductModel);
         model.transform.SetParent(transform);
         model.transform.localPosition = Vector3.zero;
+        model.transform.localScale = new Vector3(1,1,1);
         AdjustColliderToMatchChild();
         //model.transform.rotation = Quaternion.identity;
     }
@@ -66,10 +58,6 @@ public class ObjectManager : MonoBehaviour
 
     private void OnMouseDown()
     {
-        OnShowPanelRequested?.Invoke();
-        productName.text = objectData.ProductName;
-        description.text = objectData.Description;
-        dimension.text = objectData.Dimension;
-        price.text = objectData.Price;
+        OnShowPanelRequested?.Invoke(objectData.ProductName, objectData.Description, objectData.Dimension, objectData.Price);
     }
 }

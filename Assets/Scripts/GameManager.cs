@@ -199,7 +199,7 @@ public class GameManager : MonoBehaviour
                     // Calcul la diff entre position de départ et actuelle
                     float diffX = firstTouch.position.x - startXPosition;
 
-                    visualPrefab.transform.Rotate(0, 0, -diffX * speedMove, Space.Self);
+                    visualPrefab.transform.Rotate(0, -diffX * speedMove, 0, Space.Self);
 
                     // Met à jour les positions de départ pour la prochaine frame
                     startXPosition = firstTouch.position.x;
