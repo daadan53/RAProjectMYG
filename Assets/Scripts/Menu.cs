@@ -6,6 +6,7 @@ public class Menu : MonoBehaviour
     [SerializeField] private GameObject threeDView;
     [SerializeField] private Camera mainCamera;
     [SerializeField] private GameObject panelProduct;
+    public GameObject panelDebugBis;
 
     private void Awake()
     {
@@ -14,6 +15,10 @@ public class Menu : MonoBehaviour
         gameManager.threeDView = threeDView;
         gameManager.mainCamera = mainCamera;
         gameManager.productPanel = panelProduct;
+        if(gameManager.panelDebug == null)
+        {
+            gameManager.panelDebug = panelDebugBis;
+        }
     }
 
     public void Play() => gameManager.OnGoNextScene("RAScene", gameManager.visualPrefab, gameManager.prefabModelList);

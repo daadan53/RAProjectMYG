@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     private bool isVisualInstantiated = false;
     public int visualPrefabIndex = -1;
     public GameObject productPanel;
+    public GameObject panelDebug;
 
     public GameObject groundStage;
 
@@ -123,6 +124,7 @@ public class GameManager : MonoBehaviour
         if (visualPrefab == null)
         {
             Debug.LogError($"Prefab avec le nom '{buttonName}' introuvable dans prefabModelList.");
+            panelDebug.SetActive(true);
             return;
         }
 
