@@ -8,7 +8,8 @@
         "Unity.TextMeshPro",
         "AssemblyTest",
         "Unity.InputSystem",
-        "Unity.InputSystem.TestFramework"
+        "Unity.InputSystem.TestFramework",
+        "VuforiaPackageTests"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -1,10 +1,6 @@
 using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
-using UnityEngine.SocialPlatforms;
-using UnityEngine.UI;
 
 public class ObjectManager : MonoBehaviour
 {
@@ -21,7 +17,7 @@ public class ObjectManager : MonoBehaviour
     private void LoadPrefab()
     {
         model = Instantiate(objectData.ProductModel);
-        model.transform.SetParent(transform);
+        model.transform.SetParent(this.transform);
         model.transform.localPosition = Vector3.zero;
         model.transform.localScale = new Vector3(1,1,1);
         AdjustColliderToMatchChild();

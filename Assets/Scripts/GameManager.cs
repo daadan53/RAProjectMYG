@@ -9,13 +9,13 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance {get; private set;}
 
+    private List<VisualElement> visualElements;
+    VisualElement productCharged;
     public List<GameObject> prefabModelList;
     public GameObject visualPrefab;
     public GameObject threeDView;
-    private bool isVisualInstantiated = false;
+    public bool isVisualInstantiated {get; private set;}
     public int visualPrefabIndex = -1;
-    public GameObject productPanel;
-    public GameObject panelDebug;
 
     public GameObject groundStage;
 
@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         ChargePrefabToList(prefabModelList);
+        ChargeProductCatalogue();
     }
 
     void Update()
@@ -108,35 +109,56 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ChargeProduct(GameObject _clickedButton)
+    public void ChargeProductCatalogue()
     {
-        string buttonName = _clickedButton.name;
+        // Récupérer le VisualElement
+        var root = GetComponent<UIDocument>().rootVisualElement;
+        int j = 0;
 
-        foreach (var prefab in prefabModelList)
+        // Récupère tous les VisualElements sous la forme d'une liste
+        visualElements = new List<VisualElement>(root.Query<VisualElement>().ToList());
+
+        for (int i = 0; i < visualElements.Count; i++)
         {
-            if (prefab.name == buttonName)
+            if (visualElements[i].name.ToLower() == "product" + j)
             {
-                visualPrefab = prefab;
-                break;
+                productCharged = visualElements[i];
+
+                // Vérifie si j est dans les limites de prefabModelList
+                int index = j;
+                foreach(GameObject product in prefabModelList)
+                {
+                    if (productCharged.name.ToLower().Contains(product.name.ToLower()))
+                    {
+                        productCharged.RegisterCallback<ClickEvent>(ev => 
+                        { 
+                            //On le déplace
+                            OnProductClicked(index);
+                        });
+                    }
+                }
+                j++;
+            }
+            else if(visualElements[i].name.ToLower() == "quit")
+            {
+                productCharged = visualElements[i];
+                productCharged.RegisterCallback<ClickEvent>(ev => { Application.Quit(); });
             }
         }
+    }
 
-        if (visualPrefab == null)
-        {
-            Debug.LogError($"Prefab avec le nom '{buttonName}' introuvable dans prefabModelList.");
-            panelDebug.SetActive(true);
-            return;
-        }
-
+    public void OnProductClicked(int _index)
+    {
+        visualPrefab = prefabModelList[_index];
         visualPrefabIndex = SaveVisual(visualPrefab, prefabModelList);
         MovePrefabTo(visualPrefab, threeDView.transform, true);
 
-        // Positionne et ajuste la distance
         threeDView.transform.position = mainCamera.transform.position + mainCamera.transform.forward * 5f;
         threeDView.transform.LookAt(mainCamera.transform);
+
         AdjustDistance(visualPrefab);
 
-        productPanel.SetActive(false);
+        this.gameObject.GetComponent<UIDocument>().enabled = false;
         threeDView.transform.parent.gameObject.SetActive(true);
         isVisualInstantiated = true;
     }
@@ -216,7 +238,8 @@ public class GameManager : MonoBehaviour
         isVisualInstantiated = false;
         MovePrefabTo(visualPrefab, this.gameObject.transform, false);
         threeDView.transform.parent.gameObject.SetActive(false);
-        productPanel.SetActive(true);
+        this.gameObject.GetComponent<UIDocument>().enabled = true;
+        ChargeProductCatalogue();
     }
 
     public void MovePrefabTo(GameObject _prefab, Transform _newParent, bool _isVisible)
@@ -261,7 +284,8 @@ public class GameManager : MonoBehaviour
 
         if(sceneName == CATALOGUE_SCENE)
         {
-            productPanel.SetActive(true);
+            this.gameObject.GetComponent<UIDocument>().enabled = true;
+            ChargeProductCatalogue();
             threeDView.transform.parent.gameObject.SetActive(false);
         }
     }
