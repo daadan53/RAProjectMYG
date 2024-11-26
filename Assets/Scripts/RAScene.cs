@@ -6,7 +6,6 @@ using TMPro;
 public class RAScene : MonoBehaviour
 {
     GameManager gameManager;
-    public ObjectManager objectManager;
 
     private GameObject visualRA;
     private const string WINE_BOTTLE = "Product1";
@@ -27,7 +26,6 @@ public class RAScene : MonoBehaviour
 
         gameManager = GameManager.instance;
         gameManager.groundStage = this.gameObject;
-        objectManager = gameManager.gameObject.GetComponent<ObjectManager>();
         panel.SetActive(false);
     }
     private void Start() 

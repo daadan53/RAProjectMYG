@@ -1,25 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Accessibility;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance {private set;get;}
+    public static GameManager instance {get; private set;}
 
-    private List<VisualElement> visualElements;
-    VisualElement productCharged;
     public List<GameObject> prefabModelList;
     public GameObject visualPrefab;
     public GameObject threeDView;
     private bool isVisualInstantiated = false;
     public int visualPrefabIndex = -1;
+    public GameObject productPanel;
 
     public GameObject groundStage;
 
@@ -60,8 +55,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         ChargePrefabToList(prefabModelList);
-        // Ajouter un listener pour le clic sur chaque visual element qui s'appel product
-        ChargeProductCatalogue();
     }
 
     void Update()
@@ -114,54 +107,36 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void ChargeProductCatalogue()
+    public void ChargeProduct(GameObject _clickedButton)
     {
+        string buttonName = _clickedButton.name;
 
-        // Récupérer le VisualElement
-        var root = GetComponent<UIDocument>().rootVisualElement;
-        int j = 0;
-
-        // Récupère tous les VisualElements sous la forme d'une liste
-        visualElements = new List<VisualElement>(root.Query<VisualElement>().ToList());
-
-        for (int i = 0; i < visualElements.Count; i++)
+        foreach (var prefab in prefabModelList)
         {
-            if (visualElements[i].name.ToLower() == "product" + j)
+            if (prefab.name == buttonName)
             {
-                productCharged = visualElements[i];
-
-                // Vérifie si j est dans les limites de prefabModelList
-                int index = j;
-                foreach(GameObject product in prefabModelList)
-                {
-                    if (productCharged.name.ToLower().Contains(product.name.ToLower()))
-                    {
-                        productCharged.RegisterCallback<ClickEvent>(ev => 
-                        { 
-                            //On le déplace
-                            visualPrefab = prefabModelList[index];
-                            visualPrefabIndex = SaveVisual(visualPrefab, prefabModelList);
-                            MovePrefabTo(visualPrefab, threeDView.transform, true);
-
-                            threeDView.transform.position = mainCamera.transform.position + mainCamera.transform.forward * 5f;
-                            threeDView.transform.LookAt(mainCamera.transform);
-
-                            AdjustDistance(visualPrefab);
-
-                            this.gameObject.GetComponent<UIDocument>().enabled = false;
-                            isVisualInstantiated = true;
-                        });
-
-                    }
-                }
-                j++;
-            }
-            else if(visualElements[i].name.ToLower() == "quit")
-            {
-                productCharged = visualElements[i];
-                productCharged.RegisterCallback<ClickEvent>(ev => { Application.Quit(); });
+                visualPrefab = prefab;
+                break;
             }
         }
+
+        if (visualPrefab == null)
+        {
+            Debug.LogError($"Prefab avec le nom '{buttonName}' introuvable dans prefabModelList.");
+            return;
+        }
+
+        visualPrefabIndex = SaveVisual(visualPrefab, prefabModelList);
+        MovePrefabTo(visualPrefab, threeDView.transform, true);
+
+        // Positionne et ajuste la distance
+        threeDView.transform.position = mainCamera.transform.position + mainCamera.transform.forward * 5f;
+        threeDView.transform.LookAt(mainCamera.transform);
+        AdjustDistance(visualPrefab);
+
+        productPanel.SetActive(false);
+        threeDView.transform.parent.gameObject.SetActive(true);
+        isVisualInstantiated = true;
     }
 
     private void AdjustDistance(GameObject _visual)
@@ -235,10 +210,11 @@ public class GameManager : MonoBehaviour
 
     public void Return()
     {
+        visualPrefab.transform.rotation = Quaternion.identity;
         isVisualInstantiated = false;
         MovePrefabTo(visualPrefab, this.gameObject.transform, false);
-        this.gameObject.GetComponent<UIDocument>().enabled = true;
-        ChargeProductCatalogue();
+        threeDView.transform.parent.gameObject.SetActive(false);
+        productPanel.SetActive(true);
     }
 
     public void MovePrefabTo(GameObject _prefab, Transform _newParent, bool _isVisible)
@@ -258,12 +234,6 @@ public class GameManager : MonoBehaviour
         }
 
         isVisualInstantiated = false;
-
-        if(_sceneName == CATALOGUE_SCENE)
-        {
-            this.gameObject.GetComponent<UIDocument>().enabled = true;
-            ChargeProductCatalogue();
-        }
 
         StartCoroutine(Loading(_sceneName));
     }
@@ -286,6 +256,12 @@ public class GameManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         sceneName = scene.name;
+
+        if(sceneName == CATALOGUE_SCENE)
+        {
+            productPanel.SetActive(true);
+            threeDView.transform.parent.gameObject.SetActive(false);
+        }
     }
 
     private int SaveVisual(GameObject _visualPrefab, List<GameObject> _prefabModelList)
