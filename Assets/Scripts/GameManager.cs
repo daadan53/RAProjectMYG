@@ -159,7 +159,6 @@ public class GameManager : MonoBehaviour
         AdjustDistance(visualPrefab);
 
         this.gameObject.GetComponent<UIDocument>().enabled = false;
-        threeDView.transform.parent.gameObject.SetActive(true);
         isVisualInstantiated = true;
     }
 
@@ -237,7 +236,6 @@ public class GameManager : MonoBehaviour
         visualPrefab.transform.rotation = Quaternion.identity;
         isVisualInstantiated = false;
         MovePrefabTo(visualPrefab, this.gameObject.transform, false);
-        threeDView.transform.parent.gameObject.SetActive(false);
         this.gameObject.GetComponent<UIDocument>().enabled = true;
         ChargeProductCatalogue();
     }
@@ -261,6 +259,13 @@ public class GameManager : MonoBehaviour
         isVisualInstantiated = false;
 
         StartCoroutine(Loading(_sceneName));
+
+        if(_sceneName == CATALOGUE_SCENE)
+        {
+            this.gameObject.GetComponent<UIDocument>().enabled = true;
+            ChargeProductCatalogue();
+            visualPrefab.transform.rotation = Quaternion.identity;
+        }
     }
     private IEnumerator Loading(string _sceneName) 
     {
@@ -281,13 +286,6 @@ public class GameManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         sceneName = scene.name;
-
-        if(sceneName == CATALOGUE_SCENE)
-        {
-            this.gameObject.GetComponent<UIDocument>().enabled = true;
-            ChargeProductCatalogue();
-            threeDView.transform.parent.gameObject.SetActive(false);
-        }
     }
 
     private int SaveVisual(GameObject _visualPrefab, List<GameObject> _prefabModelList)

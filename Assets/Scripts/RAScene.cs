@@ -60,26 +60,12 @@ public class RAScene : MonoBehaviour
     
     public void TurnRight()
     {
-        if(visualRA.name != WINE_BOTTLE)
-        {
-            visualRA.transform.Rotate(visualRA.transform.rotation.x - rotationDegree, 0, 0);
-        }
-        else
-        {
-            visualRA.transform.Rotate(0, visualRA.transform.rotation.y - rotationDegree, 0);
-        }
+        visualRA.transform.Rotate(0, visualRA.transform.rotation.y - rotationDegree, 0);
     }
 
     public void TurnLeft()
     {
-        if(visualRA.name != WINE_BOTTLE)
-        {
-            visualRA.transform.Rotate(visualRA.transform.rotation.x + rotationDegree, 0, 0);
-        }
-        else
-        {
-            visualRA.transform.Rotate(0, visualRA.transform.rotation.y + rotationDegree, 0);
-        }
+        visualRA.transform.Rotate(0, visualRA.transform.rotation.y + rotationDegree, 0);
     }
 
     private void OnDestroy() 

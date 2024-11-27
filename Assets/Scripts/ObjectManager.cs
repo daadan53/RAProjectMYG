@@ -9,7 +9,7 @@ public class ObjectManager : MonoBehaviour
 
     [SerializeField] private GameObject model;
 
-    private void Start()
+    private void Awake()
     {
         LoadPrefab();
     }
