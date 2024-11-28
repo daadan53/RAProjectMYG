@@ -33,8 +33,6 @@ public class RAScene : MonoBehaviour
         visualRA = gameManager.prefabModelList[gameManager.visualPrefabIndex];
 
         gameManager.MovePrefabTo(visualRA, this.gameObject.transform, false);
-
-        
     }
 
     public void ShowPanel(string _name, string _description, string _dimension, string _price)

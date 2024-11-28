@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        ChargePrefabToList(prefabModelList);
+        ChargePrefabToList();
         ChargeProductCatalogue();
     }
 
@@ -77,13 +77,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ChargePrefabToList(List<GameObject> _prefabList)
+    public void ChargePrefabToList()
     {
         prefabModelList = new List<GameObject>();
         //On récup les produits qui sont enfant du gameObject et on les mets dans une liste
         int i = 0; // Démarre avec "product0"
+        int maxIterations = 1000;
 
-        while (true)
+        while (i < maxIterations)
         {
             string expectedName = $"product{i}";
             GameObject foundProduct = null;

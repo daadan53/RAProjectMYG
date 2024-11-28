@@ -5,9 +5,7 @@ public class Menu : MonoBehaviour
     GameManager gameManager;
     [SerializeField] private GameObject threeDView;
     [SerializeField] private Camera mainCamera;
-    [SerializeField] private GameObject panelProduct;
-    public GameObject panelDebugBis;
-
+    
     private void Awake()
     {
         gameManager = GameManager.instance;
