@@ -46,6 +46,8 @@ public class RetrieveTable : MonoBehaviour
 {
     //identifiant uniforme de ressource
     private string _uri = "http://localhost/ra_app/getTable.php";
+    public static event System.Action<Product[]> OnProductsRetrieved;
+
     public Product[] products {get; private set;}
 
     void Start()
@@ -75,10 +77,11 @@ public class RetrieveTable : MonoBehaviour
 
                 case UnityWebRequest.Result.Success:
                     products = JSonHelper.FromJson<Product>(webRequest.downloadHandler.text); //On récup les données
-                    foreach(Product product in products)
+                    OnProductsRetrieved?.Invoke(products);
+                    /*foreach(Product product in products)
                     {
                         Debug.Log($"{product.id}, {product.name}, {product.description}, {product.dimension}, {product.price}");
-                    }
+                    }*/
                     break;
             }
         }

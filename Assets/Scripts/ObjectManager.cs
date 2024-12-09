@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ObjectManager : MonoBehaviour
 {
-    public static event Action<string, string, string, string> OnShowPanelRequested;
+    public static event Action OnShowPanelRequested;
     public ObjectData objectData;
 
     [SerializeField] private GameObject model;
@@ -54,6 +54,6 @@ public class ObjectManager : MonoBehaviour
 
     private void OnMouseDown()
     {
-        OnShowPanelRequested?.Invoke(objectData.ProductName, objectData.Description, objectData.Dimension, objectData.Price);
+        OnShowPanelRequested?.Invoke();
     }
 }

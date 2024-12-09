@@ -15,13 +15,19 @@ public class RAScene : MonoBehaviour
     [SerializeField] private GameObject panel;
     [SerializeField] private GameObject planeFinder;
     private const string PANEL_NAME = "PanelDescription";
-    [SerializeField] private TextMeshProUGUI productName;
-    [SerializeField] private TextMeshProUGUI description;
-    [SerializeField] private TextMeshProUGUI dimension;
-    [SerializeField] private TextMeshProUGUI price;
+    [SerializeField] private TextMeshProUGUI productNameChamp;
+    [SerializeField] private TextMeshProUGUI descriptionChamp;
+    [SerializeField] private TextMeshProUGUI dimensionChamp;
+    [SerializeField] private TextMeshProUGUI priceChamp;
+
+    private string productName;
+    private string productDescription;
+    private string productDimension;
+    private int productPrice;
     
     private void Awake() 
     {
+        RetrieveTable.OnProductsRetrieved += SetProductDetails;
         ObjectManager.OnShowPanelRequested += ShowPanel;
 
         gameManager = GameManager.instance;
@@ -35,15 +41,31 @@ public class RAScene : MonoBehaviour
         gameManager.MovePrefabTo(visualRA, this.gameObject.transform, false);
     }
 
-    public void ShowPanel(string _name, string _description, string _dimension, string _price)
+    //Recup les détails du produit actuellement séléctionné
+    public void SetProductDetails(Product[] _products)
+    {
+        foreach(var product in _products)
+        {
+            if(product.id - 1 == gameManager.visualPrefabIndex)
+            {
+                Debug.Log($"Product : {product.name}");
+                productName = product.name;
+                productDescription = product.description;
+                productDimension = product.dimension;
+                productPrice = product.price;
+            }
+        }
+    }
+
+    public void ShowPanel()
     {
         panel.SetActive(true);
         this.gameObject.SetActive(false);
         planeFinder.SetActive(false);
-        productName.text = _name;
-        description.text = _description;
-        dimension.text = _dimension;
-        price.text = _price;
+        productNameChamp.text = productName;
+        descriptionChamp.text = productDescription;
+        dimensionChamp.text = productDimension;
+        priceChamp.text = productPrice.ToString() + "€";
     }
 
     public void OnGoNextScene() => gameManager.OnGoNextScene("CatalogueScene", visualRA, gameManager.prefabModelList);
@@ -68,6 +90,7 @@ public class RAScene : MonoBehaviour
 
     private void OnDestroy() 
     {
+        RetrieveTable.OnProductsRetrieved -= SetProductDetails;
         ObjectManager.OnShowPanelRequested -= ShowPanel;
     }
 }
