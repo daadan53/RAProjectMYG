@@ -51,7 +51,7 @@ public class RAScene : MonoBehaviour
                 Debug.Log($"Product : {product.name}");
                 productName = product.name;
                 productDescription = product.description;
-                productDimension = product.dimension;
+                productDimension = product.dimensions;
                 productPrice = product.price;
             }
         }

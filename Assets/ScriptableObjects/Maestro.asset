@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd665a66ff8cae48b599ec91d5ee7f5, type: 3}
   m_Name: Maestro
   m_EditorClassIdentifier: 
-  productName: "Po\xEAle  \xE0 bois ancien"
+  productName: "Po\xEAle \xE0 bois ancien"
   description: "Avec son style traditionnel, ce po\xEAle \xE0 bois Invicta Rustica
     est id\xE9al pour les pi\xE8ces \xE0 vivre jusqu'\xE0 120m2. Il dispose d'un
     bon rendement pour profiter d'une maison chaleureuse et confortable tout en r\xE9duisant

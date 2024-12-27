@@ -38,7 +38,7 @@ public class Product
     public int id;
     public string name;
     public string description;
-    public string dimension;
+    public string dimensions;
     public int price;
 }
 
@@ -55,7 +55,7 @@ public class RetrieveTable : MonoBehaviour
         StartCoroutine(RetrieveDataFromInternet());
     }
 
-    IEnumerator RetrieveDataFromInternet()
+    public IEnumerator RetrieveDataFromInternet()
     {
         //La requête
         using(UnityWebRequest webRequest = UnityWebRequest.Get(_uri))
@@ -76,12 +76,9 @@ public class RetrieveTable : MonoBehaviour
                     break;
 
                 case UnityWebRequest.Result.Success:
+                    Debug.Log(webRequest.downloadHandler.text);
                     products = JSonHelper.FromJson<Product>(webRequest.downloadHandler.text); //On récup les données
                     OnProductsRetrieved?.Invoke(products);
-                    /*foreach(Product product in products)
-                    {
-                        Debug.Log($"{product.id}, {product.name}, {product.description}, {product.dimension}, {product.price}");
-                    }*/
                     break;
             }
         }

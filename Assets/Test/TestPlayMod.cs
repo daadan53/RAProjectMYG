@@ -71,6 +71,8 @@ public class TestPlayMod : InputTestFixture
         yield return new WaitForSeconds(2f);
         Assert.IsTrue(gameManager.sceneName == "RAScene", "La scène n'a pas changer");
         Assert.IsTrue(gameManager.groundStage.transform.childCount > 0, "Le prefab n'a pas été placé dans le ground stage");
+        //On vérifie la connexion à la bdd
+
 
         buttonBack = GameObject.Find("ButtonBack");
         ClickUI(buttonBack);
